@@ -7,6 +7,8 @@ set /P bFileName="Enter B file name: "
 
 set /P resFileName="Enter result file name: "
 
+set /P b="-b: "
+
 @ECHO on
-TCHMK_1 "%aFileName%" "%operation%" "%bFileName%" "%resFileName%"
+TCHMK_1 "%aFileName%" "%operation%" "%bFileName%" "%resFileName%" "%b%"
 pause
