@@ -1,6 +1,6 @@
-#!/usr/bin/env python
+п»ї#!/usr/bin/env python
 # coding: UTF-8
-#Аес-128/Рэндел
+#РђРµСЃ-128/Р СЌРЅРґРµР»
 import argparse
 
 Nk = 4
@@ -8,7 +8,7 @@ Nb = 4
 Nr = 10
 
 
-#Табличная подстановка
+#РўР°Р±Р»РёС‡РЅР°СЏ РїРѕРґСЃС‚Р°РЅРѕРІРєР°
 def SubByte(byte):
     Sbox = [0x63, 0x7c, 0x77, 0x7b, 0xf2, 0x6b, 0x6f, 0xc5, 0x30, 0x01, 0x67, 0x2b, 0xfe, 0xd7, 0xab, 0x76,
             0xca, 0x82, 0xc9, 0x7d, 0xfa, 0x59, 0x47, 0xf0, 0xad, 0xd4, 0xa2, 0xaf, 0x9c, 0xa4, 0x72, 0xc0,
@@ -28,7 +28,7 @@ def SubByte(byte):
             0x8c, 0xa1, 0x89, 0x0d, 0xbf, 0xe6, 0x42, 0x68, 0x41, 0x99, 0x2d, 0x0f, 0xb0, 0x54, 0xbb, 0x16]
     return Sbox[byte]
 
-#Обратная табличная подстановка
+#РћР±СЂР°С‚РЅР°СЏ С‚Р°Р±Р»РёС‡РЅР°СЏ РїРѕРґСЃС‚Р°РЅРѕРІРєР°
 def InvSubByte(byte):
     Sbox = [0x52, 0x09, 0x6a, 0xd5, 0x30, 0x36, 0xa5, 0x38, 0xbf, 0x40, 0xa3, 0x9e, 0x81, 0xf3, 0xd7, 0xfb,
            0x7c, 0xe3, 0x39, 0x82, 0x9b, 0x2f, 0xff, 0x87, 0x34, 0x8e, 0x43, 0x44, 0xc4, 0xde, 0xe9, 0xcb,
@@ -48,7 +48,7 @@ def InvSubByte(byte):
            0x17, 0x2b, 0x04, 0x7e, 0xba, 0x77, 0xd6, 0x26, 0xe1, 0x69, 0x14, 0x63, 0x55, 0x21, 0x0c, 0x7d]
     return Sbox[byte]
 
-#сама подстановка
+#СЃР°РјР° РїРѕРґСЃС‚Р°РЅРѕРІРєР°
 def SubBytes(state):
     for i in range(4):
         for j in range(Nb):
@@ -61,7 +61,7 @@ def InvSubBytes(state):
         for j in range(Nb):
             state[i][j] = InvSubByte(state[i][j])
     return state
-#сдвиг строк
+#СЃРґРІРёРі СЃС‚СЂРѕРє
 def ShiftRows(state):
     for i in range(4):
         state[i] = state[i][i:] + state[i][:i]
@@ -75,10 +75,10 @@ def InvShiftRows(state):
 def MixColumnsStep(line, x1, x2, x3, x4):
     return MultG(line[0], x1) ^ MultG(line[1], x2) ^ MultG(line[2], x3) ^ MultG(line[3], x4)
 
-#Вычисляем новые столбцы, представляя их в виде многочлена в #поле Галуа GF(2^8) по модулю x^4+1 c 
-#фиксированным многочленом 3x^3+x^2+x+2
-#шифруем входной текст
-#Сам алгоритм
+#Р’С‹С‡РёСЃР»СЏРµРј РЅРѕРІС‹Рµ СЃС‚РѕР»Р±С†С‹, РїСЂРµРґСЃС‚Р°РІР»СЏСЏ РёС… РІ РІРёРґРµ РјРЅРѕРіРѕС‡Р»РµРЅР° РІ #РїРѕР»Рµ Р“Р°Р»СѓР° GF(2^8) РїРѕ РјРѕРґСѓР»СЋ x^4+1 c 
+#С„РёРєСЃРёСЂРѕРІР°РЅРЅС‹Рј РјРЅРѕРіРѕС‡Р»РµРЅРѕРј 3x^3+x^2+x+2
+#С€РёС„СЂСѓРµРј РІС…РѕРґРЅРѕР№ С‚РµРєСЃС‚
+#РЎР°Рј Р°Р»РіРѕСЂРёС‚Рј
 def MixColumns(state):
     for i in range(Nb):
         b = [0] * 4
@@ -103,7 +103,7 @@ def InvMixColumns(state):
 
 
 
-#раундовые ключи
+#СЂР°СѓРЅРґРѕРІС‹Рµ РєР»СЋС‡Рё
 def KeyExpansion(key):
     Rcon = [
         [0x00, 0x00, 0x00, 0x00],
@@ -138,7 +138,7 @@ def KeyExpansion(key):
         i += 1
     return w
 
-#расширение ключа
+#СЂР°СЃС€РёСЂРµРЅРёРµ РєР»СЋС‡Р°
 def AddRoundKey(state, roundKey):
     for i in range(4):
         for j in range(Nb):
@@ -170,7 +170,7 @@ def MultG(a, b):
     return p
 
 
-#Шифрование данных
+#РЁРёС„СЂРѕРІР°РЅРёРµ РґР°РЅРЅС‹С…
 def Shifr(in_, w):
     state = [0] * 4
     for i in range(4):
@@ -216,7 +216,7 @@ def InvShifr(in_, w):
     return out
 
 
-# шифрует или дешифрует блок данных (байт, чисел), кратный 16
+# С€РёС„СЂСѓРµС‚ РёР»Рё РґРµС€РёС„СЂСѓРµС‚ Р±Р»РѕРє РґР°РЅРЅС‹С… (Р±Р°Р№С‚, С‡РёСЃРµР»), РєСЂР°С‚РЅС‹Р№ 16
 def Block(dannie, key, encryption):
     if len(key) != 16 or len(dannie) % 16 != 0:
         return None
@@ -234,18 +234,18 @@ def Block(dannie, key, encryption):
     return result
 
 
-# шифрует или дешифрует строки
+# С€РёС„СЂСѓРµС‚ РёР»Рё РґРµС€РёС„СЂСѓРµС‚ СЃС‚СЂРѕРєРё
 def Stroka(dannie, key, mod):
     if len(key) != 16:
         raise Exception("Bad key size")
         
-    # переведём символы в числа
+    # РїРµСЂРµРІРµРґС‘Рј СЃРёРјРІРѕР»С‹ РІ С‡РёСЃР»Р°
     dannie = [ord(x) for x in dannie]
     key = [ord(x) for x in key]
 
     encryption = (mod == 'c')
     if encryption:
-        # перед шифрованием - выравнивание длины
+        # РїРµСЂРµРґ С€РёС„СЂРѕРІР°РЅРёРµРј - РІС‹СЂР°РІРЅРёРІР°РЅРёРµ РґР»РёРЅС‹
         lastLen = len(dannie) % 16
         delZeros = 16 - lastLen - 1
         dannie = [delZeros] + dannie + [0] * delZeros
@@ -253,16 +253,16 @@ def Stroka(dannie, key, mod):
     result = Block(dannie, key, encryption)
 
     if not encryption:
-        # при дешифровании необходимо избавиться от фиктивных нулей в конце
+        # РїСЂРё РґРµС€РёС„СЂРѕРІР°РЅРёРё РЅРµРѕР±С…РѕРґРёРјРѕ РёР·Р±Р°РІРёС‚СЊСЃСЏ РѕС‚ С„РёРєС‚РёРІРЅС‹С… РЅСѓР»РµР№ РІ РєРѕРЅС†Рµ
         delZeros = result[0]
         if delZeros != 0:
             result = result[1:-delZeros]
         else:
             result = result[1:]
 
-    # переводим числа обратно в символы
+    # РїРµСЂРµРІРѕРґРёРј С‡РёСЃР»Р° РѕР±СЂР°С‚РЅРѕ РІ СЃРёРјРІРѕР»С‹
     result = [chr(x) for x in result]
-    return ''.join(result) # возвращаем в виде строки
+    return ''.join(result) # РІРѕР·РІСЂР°С‰Р°РµРј РІ РІРёРґРµ СЃС‚СЂРѕРєРё
 
 
 if __name__ == "__main__":

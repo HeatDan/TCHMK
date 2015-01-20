@@ -1,11 +1,11 @@
-#!/usr/bin/python
-#Шифр Вижинера
+п»ї#!/usr/bin/python
+#РЁРёС„СЂ Р’РёР¶РёРЅРµСЂР°
 import argparse
 import sys
  
 
 
-#Кодирование содержимого
+#РљРѕРґРёСЂРѕРІР°РЅРёРµ СЃРѕРґРµСЂР¶РёРјРѕРіРѕ
 def shifr(dannie, key, proc):
     process = str()
     for i in range(len(dannie)):
@@ -19,7 +19,7 @@ def shifr(dannie, key, proc):
     return process
 
 if __name__ == "__main__":
-    #Парсинг аргументов
+    #РџР°СЂСЃРёРЅРі Р°СЂРіСѓРјРµРЅС‚РѕРІ
     parse = argparse.ArgumentParser()
     parse.add_argument('vhod')
     parse.add_argument('vihod')
@@ -27,7 +27,7 @@ if __name__ == "__main__":
     parse.add_argument('mod', choices=['c', 'd'])
     args = parse.parse_args()
     
-    #Файл входных данных
+    #Р¤Р°Р№Р» РІС…РѕРґРЅС‹С… РґР°РЅРЅС‹С…
 try:
     infile = open(args.vhod, 'rb')
 except IOError:
@@ -36,7 +36,7 @@ except IOError:
     dannie = infile.read()
     infile.close()
 
-    #Файл с ключом
+    #Р¤Р°Р№Р» СЃ РєР»СЋС‡РѕРј
 try:
     keyfile = open(args.key, 'rb')
 except IOError:
@@ -46,7 +46,7 @@ except IOError:
     keyfile.close()
 
 
-    #Выходной файл
+    #Р’С‹С…РѕРґРЅРѕР№ С„Р°Р№Р»
     outfile = open(args.vihod, 'wb')
     mod = (args.mod == 'c')
     process = shifr(dannie, key, mod)
