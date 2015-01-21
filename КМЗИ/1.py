@@ -1,11 +1,21 @@
-п»ї#!/usr/bin/python
-#РЁРёС„СЂ Р’РёР¶РёРЅРµСЂР°
+#!/usr/bin/python
+#Шифр Вижинера
 import argparse
 import sys
  
+def readfile(path):
+    #Файл входных данных
+     with open(path, 'rb') as g:
+	dannie = g.read()
+    	return dannie
 
+def readkey(path):
+    #Файл с ключом
+    with open(path, 'rb') as d:
+     key = d.read()
+     return key
 
-#РљРѕРґРёСЂРѕРІР°РЅРёРµ СЃРѕРґРµСЂР¶РёРјРѕРіРѕ
+#Кодирование содержимого
 def shifr(dannie, key, proc):
     process = str()
     for i in range(len(dannie)):
@@ -18,8 +28,8 @@ def shifr(dannie, key, proc):
         process += chr(c)
     return process
 
-if __name__ == "__main__":
-    #РџР°СЂСЃРёРЅРі Р°СЂРіСѓРјРµРЅС‚РѕРІ
+def main():
+    #Парсинг аргументов
     parse = argparse.ArgumentParser()
     parse.add_argument('vhod')
     parse.add_argument('vihod')
@@ -27,28 +37,25 @@ if __name__ == "__main__":
     parse.add_argument('mod', choices=['c', 'd'])
     args = parse.parse_args()
     
-    #Р¤Р°Р№Р» РІС…РѕРґРЅС‹С… РґР°РЅРЅС‹С…
-try:
-    infile = open(args.vhod, 'rb')
-except IOError:
-    print("Vhodnoi file ne naiden")
-    exit (1);
-    dannie = infile.read()
-    infile.close()
-
-    #Р¤Р°Р№Р» СЃ РєР»СЋС‡РѕРј
-try:
-    keyfile = open(args.key, 'rb')
-except IOError:
-    print("File kluch ne naiden")
-    exit (1);
-    key = keyfile.read()
-    keyfile.close()
+    try:
+        dannie = readfile(args.vhod)
+    except Exception as err:
+        print("Error: {0}".format(err))
+        return
+    try:
+    	  key = readkey(args.key)
+    except Exception as err:
+        print("Error: {0}".format(err))
+        return
 
 
-    #Р’С‹С…РѕРґРЅРѕР№ С„Р°Р№Р»
+
+    #Выходной файл
     outfile = open(args.vihod, 'wb')
     mod = (args.mod == 'c')
     process = shifr(dannie, key, mod)
     outfile.write(process)
     outfile.close()
+
+if __name__ == "__main__": 
+    main()
