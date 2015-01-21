@@ -1,21 +1,21 @@
-#!/usr/bin/python
-#Шифр Вижинера
+п»ї#!/usr/bin/python
+#РЁРёС„СЂ Р’РёР¶РёРЅРµСЂР°
 import argparse
 import sys
  
 def readfile(path):
-    #Файл входных данных
+    #Р¤Р°Р№Р» РІС…РѕРґРЅС‹С… РґР°РЅРЅС‹С…
      with open(path, 'rb') as g:
 	dannie = g.read()
     	return dannie
 
 def readkey(path):
-    #Файл с ключом
+    #Р¤Р°Р№Р» СЃ РєР»СЋС‡РѕРј
     with open(path, 'rb') as d:
      key = d.read()
      return key
 
-#Кодирование содержимого
+#РљРѕРґРёСЂРѕРІР°РЅРёРµ СЃРѕРґРµСЂР¶РёРјРѕРіРѕ
 def shifr(dannie, key, proc):
     process = str()
     for i in range(len(dannie)):
@@ -29,7 +29,7 @@ def shifr(dannie, key, proc):
     return process
 
 def main():
-    #Парсинг аргументов
+    #РџР°СЂСЃРёРЅРі Р°СЂРіСѓРјРµРЅС‚РѕРІ
     parse = argparse.ArgumentParser()
     parse.add_argument('vhod')
     parse.add_argument('vihod')
@@ -50,7 +50,7 @@ def main():
 
 
 
-    #Выходной файл
+    #Р’С‹С…РѕРґРЅРѕР№ С„Р°Р№Р»
     outfile = open(args.vihod, 'wb')
     mod = (args.mod == 'c')
     process = shifr(dannie, key, mod)
