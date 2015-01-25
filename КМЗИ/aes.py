@@ -263,9 +263,20 @@ def Stroka(dannie, key, mod):
     # переводим числа обратно в символы
     result = [chr(x) for x in result]
     return ''.join(result) # возвращаем в виде строки
+def readfile(path):
+    #Файл входных данных
+     with open(path, 'rb') as g:
+	dannie = g.read()
+    	return dannie
+
+def readkey(path):
+    #Файл с ключом
+    with open(path, 'rb') as d:
+     key = d.read()
+     return key
 
 
-if __name__ == "__main__":
+def main():
     parse = argparse.ArgumentParser()
     parse.add_argument('input')
     parse.add_argument('vihod')
@@ -273,16 +284,23 @@ if __name__ == "__main__":
     parse.add_argument('mod', choices=['c', 'd'])
     args = parse.parse_args()
 
-    infile = open(args.input, 'rb')
-    dannie = infile.read()
-    infile.close()
+    try:
+        dannie = readfile(args.vhod)
+    except Exception as err:
+        print("Error: {0}".format(err))
+        return
+    try:
+    	  key = readkey(args.key)
+    except Exception as err:
+        print("Error: {0}".format(err))
+        return
 
-    keyfile = open(args.key, 'rb')
-    key = keyfile.read()
-    keyfile.close()
 
     encoded = Stroka(dannie, key, args.mod)
 
     outfile = open(args.vihod, 'wb')
     outfile.write(encoded)
     outfile.close()
+
+if __name__ == "__main__": 
+    main()
